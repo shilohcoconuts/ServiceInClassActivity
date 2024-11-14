@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var timerBinder: TimerService.TimerBinder
     var isConnection = false
-    var buttonState = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,18 +40,16 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.startButton).setOnClickListener {
 
-            if (buttonState) {
-                startButton.text = "start"
-                if (isConnection) {
-                    timerBinder.pause()
-                }
-                buttonState = false
-            } else {
+            if (timerBinder.isRunning == false) {
                 startButton.text = "Pause"
                 if (isConnection) {
                     timerBinder.start(100)
                 }
-                buttonState = true
+            } else{
+                startButton.text = "Start"
+                if (isConnection) {
+                    timerBinder.pause()
+                }
             }
 
         }
@@ -59,6 +57,8 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.stopButton).setOnClickListener {
             if (isConnection) {
                 timerBinder.stop()
+                startButton.text = "Start"
+
             }
         }
     }
